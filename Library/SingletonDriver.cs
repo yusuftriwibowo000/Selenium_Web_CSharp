@@ -19,7 +19,10 @@ namespace SeleniumNew
         {
             if (driver == null)
             {
-                driver = new FirefoxDriver("C:/Users/HP/source/repos/TestProject/Drivers/");
+                var options = new FirefoxOptions();
+                options.AddArgument("--headless"); // Tambahkan mode headless
+
+                driver = new FirefoxDriver("C:/Users/HP/source/repos/TestProject/Drivers/",options);
             }
             return driver;
         }

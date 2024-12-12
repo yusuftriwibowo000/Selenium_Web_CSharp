@@ -37,6 +37,7 @@ namespace LibraryExcel
 
         public static string GetDataExcel(string filePath, string columnName, string sheetName)
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (ExcelPackage package = new ExcelPackage(new FileInfo(filePath)))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];

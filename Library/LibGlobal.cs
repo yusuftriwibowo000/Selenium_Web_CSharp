@@ -37,24 +37,18 @@ namespace GlobalLibrary
         {
             IWebDriver driver = SingletonDriver.GetDriver();
             // Objek yang ada di Home Page Travelio
-            IWebElement modalIklan = driver.FindElement(By.XPath("//div[@id='tpmModal']"));
+            //IWebElement modalIklan = driver.FindElement(By.XPath("//div[@id='tpmModal']"));
             IWebElement modalClose = driver.FindElement(By.XPath("//i[@class='fa fa-close fa-lg close padding15']"));
             IWebElement logoTravelio = driver.FindElement(By.XPath("//div[@id='menu-wrapper']/div/a[@class='navbar-brand']"));
             IWebElement menuTravelio = driver.FindElement(By.XPath("//*[@id='menu-wrapper']"));
-            IWebElement btnLogin = driver.FindElement(By.XPath("//*[@id='loginBtn']"));
-
-            // Objek yang ada di Modal Login Page
-            IWebElement tabMasuk = driver.FindElement(By.XPath("//*[@id='login-modal-sign-in-tab']"));
-            IWebElement inputUsername = driver.FindElement(By.XPath("//input[@id='login-email']"));
-            IWebElement inputPassword = driver.FindElement(By.XPath("//input[@id='login-password']"));
-            IWebElement btnMasuk = driver.FindElement(By.XPath("//button[@id='login-modal-btn']"));
+            IWebElement btnMasuk = driver.FindElement(By.XPath("//*[@id='loginBtn']"));
 
             string username = LibExcel.GetDataExcel(excelPath, "USERNAME", excelSheet);
             string password = LibExcel.GetDataExcel(excelPath, "PASSWORD", excelSheet);
             string greet = LibExcel.GetDataExcel(excelPath, "NAME", excelSheet);
 
             // Jika muncul popup iklan
-            if (modalIklan.Displayed)
+            if (modalClose.Displayed)
             {
                 LibPDF.CaptureScreen("Tutup Popup Iklan Travelio", "Done");
                 modalClose.Click();
@@ -65,15 +59,22 @@ namespace GlobalLibrary
                 Console.WriteLine("Popup Iklan tidak ada di page");
             }
 
-            if (logoTravelio.Displayed && menuTravelio.Displayed && btnLogin.Displayed)
+            if (logoTravelio.Displayed && menuTravelio.Displayed && btnMasuk.Displayed)
             {
                 LibPDF.CaptureScreen("Berhasil Masuk Beranda Travelio", "Passed");
+
                 // 'Btn Login' di home page
-                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", btnLogin);
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", btnMasuk);
                 Thread.Sleep(5000);
-                if (tabMasuk.Displayed)
+                // Objek yang ada di Modal Login Page
+                IWebElement tabLoginEmail = driver.FindElement(By.XPath("//*[@id='auth-modal-sign-in-with-email-icon']"));
+                IWebElement inputUsername = driver.FindElement(By.XPath("//input[@id='login-email']"));
+                IWebElement inputPassword = driver.FindElement(By.XPath("//input[@id='login-password']"));
+                IWebElement btnLogin = driver.FindElement(By.XPath("//button[@id='auth-modal-btn']"));
+
+                if (tabLoginEmail.Displayed)
                 {
-                    tabMasuk.Click();
+                    tabLoginEmail.Click();
                     if (inputUsername.Displayed && inputPassword.Displayed)
                     {
                         LibPDF.CaptureScreen("Masuk Halaman Login", "Passed");
@@ -82,9 +83,9 @@ namespace GlobalLibrary
                         inputPassword.SendKeys(password);
                         Thread.Sleep(1000);
                         LibPDF.CaptureScreen("Isi Field Username dan Password", "Done");
-                        if (btnMasuk.Displayed)
+                        if (btnLogin.Displayed)
                         {
-                            btnMasuk.Click();
+                            btnLogin.Click();
                             Thread.Sleep(5000);
 
                             // Jika Berhasil Login
@@ -164,8 +165,8 @@ namespace GlobalLibrary
                     LibPDF.CaptureScreen("Klik Button Keluar Akun", "Done");
                     btnLogout.Click();
                     Thread.Sleep(5000);
-                    IWebElement btnLogin = driver.FindElement(By.XPath("//*[@id='loginBtn']"));
-                    if (btnLogin.Displayed)
+                    IWebElement btnMasuk = driver.FindElement(By.XPath("//*[@id='loginBtn']"));
+                    if (btnMasuk.Displayed)
                     {
                         LibPDF.CaptureScreen("Berhasil Logout", "Passed");
                         driver.Quit();

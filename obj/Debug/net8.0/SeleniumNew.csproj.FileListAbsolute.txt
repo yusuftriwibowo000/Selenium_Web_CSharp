@@ -868,3 +868,4 @@ C:\Users\HP\Documents\MetrocomJaddi\obj\Debug\net8.0\refint\SeleniumNew.dll
 C:\Users\HP\Documents\MetrocomJaddi\obj\Debug\net8.0\SeleniumNew.pdb
 C:\Users\HP\Documents\MetrocomJaddi\obj\Debug\net8.0\SeleniumNew.genruntimeconfig.cache
 C:\Users\HP\Documents\MetrocomJaddi\obj\Debug\net8.0\ref\SeleniumNew.dll
+C:\Users\HP\Documents\MetrocomJaddi\obj\Debug\net8.0\SeleniumNew.sourcelink.json
